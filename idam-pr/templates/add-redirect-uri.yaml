@@ -1,0 +1,41 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-idam-pr"
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}-idam-pr
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: before-hook-creation
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-idam-pr"
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}-idam-pr
+    spec:
+      volumes:
+        - name: container-init
+          configMap:
+            name: {{ .Release.Name }}-bin-add
+            defaultMode: 0755
+      containers:
+        - name: {{ .Release.Name }}-idam-pr
+          image: hmcts/curl
+          volumeMounts:
+            - name: container-init
+              mountPath: /container.init
+          command: [ "/bin/sh" ]
+          resources:
+            requests:
+              memory: {{ .Values.memoryRequests }}
+              cpu: {{ .Values.cpuRequests }}
+            limits:
+              memory: {{ .Values.memoryLimits }}
+              cpu: {{ .Values.cpuLimits }}
+      restartPolicy: Never

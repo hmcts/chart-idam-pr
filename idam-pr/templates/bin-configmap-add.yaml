@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-bin-add
+  labels:
+    system: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    type: configuration
+
+data:
+  idam-pr: |
+{{ include (print .Template.BasePath "/bin/_idam-pr-register.tpl") . | indent 4 }}

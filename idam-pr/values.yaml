@@ -1,0 +1,12 @@
+api:
+  url: https://idam-api.aat.plaform.hmcts.net
+
+service:
+  name: test-public-service
+  redirect_uri: http://localhost/oauth2/receiver
+
+memoryRequests: "512Mi"
+cpuRequests: "25m"
+memoryLimits: "1024Mi"
+cpuLimits: "2500m"
+
