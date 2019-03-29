@@ -8,5 +8,5 @@ metadata:
     type: configuration
 
 data:
-  idam-pr: |
+  idam-pr-delete: |
 {{ include (print .Template.BasePath "/bin/_idam-pr-delete.tpl") . | indent 4 }}

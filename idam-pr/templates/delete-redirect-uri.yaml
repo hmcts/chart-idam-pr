@@ -31,6 +31,8 @@ spec:
             - name: container-init
               mountPath: /container.init
           command: [ "/bin/sh" ]
+          args:
+            - /container.init/idam-pr-delete
           resources:
             requests:
               memory: {{ .Values.memoryRequests }}

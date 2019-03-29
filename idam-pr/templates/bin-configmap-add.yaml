@@ -8,5 +8,5 @@ metadata:
     type: configuration
 
 data:
-  idam-pr: |
+  idam-pr-add: |
 {{ include (print .Template.BasePath "/bin/_idam-pr-register.tpl") . | indent 4 }}
