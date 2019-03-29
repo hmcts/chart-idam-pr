@@ -8,7 +8,7 @@ curl -X PATCH \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '[ {
-	"operation": "delete",
+	"operation": "remove",
 	"field": "redirect_uri",
 	"value": "{{ .Values.service.redirect_uri }}"
 }

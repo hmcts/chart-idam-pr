@@ -2,22 +2,22 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-idam-pr"
+  name: "{{ .Release.Name }}-idam-pr-add"
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}-idam-pr
+    app.kubernetes.io/name: {{ .Release.Name }}-idam-pr-add
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
   annotations:
     helm.sh/hook: post-install
     helm.sh/hook-weight: "-5"
-    helm.sh/hook-delete-policy: before-hook-creation
+    helm.sh/hook-delete-policy: hook-succeeded
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}-idam-pr"
+      name: "{{ .Release.Name }}-idam-pr-add"
       labels:
-        app.kubernetes.io/name: {{ .Release.Name }}-idam-pr
+        app.kubernetes.io/name: {{ .Release.Name }}-idam-pr-add
     spec:
       volumes:
         - name: container-init
@@ -25,7 +25,7 @@ spec:
             name: {{ .Release.Name }}-bin-add
             defaultMode: 0755
       containers:
-        - name: {{ .Release.Name }}-idam-pr
+        - name: {{ .Release.Name }}-idam-pr-add
           image: hmcts/curl
           volumeMounts:
             - name: container-init
