@@ -4,12 +4,20 @@ metadata:
   name: "{{ .Release.Name }}-test-service"
   annotations:
     "helm.sh/hook": test-success
+    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
+  volumes:
+    - name: container-init
+      configMap:
+        name: {{ .Release.Name }}-bin-test
+        defaultMode: 0755
   containers:
-  - name: {{ .Release.Name }}-test-service
-    image: busybox
-    env:
-      - name: SERVICE_NAME
-        value: {{ .Release.Name }}-user-profile-api
-    command: ["sh", "-c", "httpstatuscode=$(wget -S http://$API_URL/health 2>&1 | grep HTTP/ | awk 'END{print $2}') && [ \"$httpstatuscode\" = \"200\" ]"]
+  - name: {{ .Release.Name }}-idam-pr-test
+    image: hmcts/curl
+    volumeMounts:
+      - name: container-init
+        mountPath: /container.init
+    command: [ "/bin/sh" ]
+    args:
+      - /container.init/idam-pr-test
   restartPolicy: Never

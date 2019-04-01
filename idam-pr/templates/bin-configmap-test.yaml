@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-bin-test
+  labels:
+    system: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    type: configuration
+
+data:
+  idam-pr-test: |
+{{ include (print .Template.BasePath "/bin/_idam-pr-test.tpl") . | indent 4 }}
