@@ -1,5 +1,5 @@
 api:
-  url: https://idam-api.aat.plaform.hmcts.net
+  url: https://idam-api.aat.platform.hmcts.net
 
 web_public:
   url: https://idam-web-public.aat.platform.hmcts.net
