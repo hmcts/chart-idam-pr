@@ -2,7 +2,7 @@ apiVersion: v1
 description: A Helm chart for the HMCTS IDAM-PR product
 name: idam-pr
 version: 1.0.0
-icon: https://github.com/hmcts/chart-idam-pr/raw/master/images/icons8-java-50.png
+icon: https://github.com/hmcts/chart-idam-pr/raw/master/images/icons-helm-50.png
 keywords:
   - idam
   - redirect-uri
