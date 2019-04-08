@@ -5,7 +5,8 @@ as we have some expectations related to the content and quality of change sets.
 
 ## What you should know about this application
 
-This project is a helm chart used for deploying our applications.
+This project is a helm chart that manages redirect_uris for service applications in IDAM. It can be used for deploying 
+service applications in environments where the application URL is dynamic.
 
 ## Before contributing
 
