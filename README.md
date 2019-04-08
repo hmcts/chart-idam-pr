@@ -58,7 +58,7 @@ idam-pr:
 ```
 *Notes*: 
 - idam-pr.service.name: name of the service as configured in IDAM. It is unique per service per environment and will 
-match the label your service appears with in IDAM Admin Console.. If you are not sure what it  needs to be set to, 
+match the label your service appears with in IDAM Admin Console. If you are not sure what it  needs to be set to, 
 please contact IDAM team at #sidam-team.
 - idam-pr.service.redirect_uri: this is the application callback URL where IDAM will send back the authentication code 
 - SERVICE_FQDN - is injected by Jenkins and values file templated before passing to Helm.
