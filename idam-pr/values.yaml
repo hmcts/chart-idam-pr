@@ -4,10 +4,6 @@ api:
 web_public:
   url: https://idam-web-public.aat.platform.hmcts.net
 
-user:
-  username: idamOwner@hmcts.net
-  password: Ref0rmIsFun
-
 service:
   name: test-public-service
   redirect_uri: http://localhost/oauth2/receiver

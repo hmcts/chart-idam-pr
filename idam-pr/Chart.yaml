@@ -1,9 +1,12 @@
 apiVersion: v1
-description: A Helm chart for the HMCTS IDAM-PR product
+description: A Helm chart for dynamic registration of redirect URLs for OAuth2 services in IDAM
 name: idam-pr
 version: 1.0.0
 icon: https://github.com/hmcts/chart-idam-pr/raw/master/images/icons-helm-50.png
 keywords:
   - idam
-  - redirect-uri
   - pr
+  - redirect-uri
+  - redirect-url
+  - sidam
+  - whitelist
