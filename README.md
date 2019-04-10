@@ -44,7 +44,7 @@ dependencies:
       - idam-pr
 ```
 
-values.template.yaml
+values.preview.yaml
 ```yaml
 tags:
   idam-pr: true
