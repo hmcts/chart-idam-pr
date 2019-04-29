@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-bin-delete
+  name: {{ template "hmcts.releaseName" . }}-bin-delete
   labels:
     system: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     type: configuration

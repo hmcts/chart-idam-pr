@@ -2,9 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-idam-pr-delete"
+  name: {{ template "hmcts.releaseName" . }}-del
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}-idam-pr-delete
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-del
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -15,17 +15,17 @@ metadata:
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}-idam-pr-delete"
+      name: {{ template "hmcts.releaseName" . }}-del
       labels:
-        app.kubernetes.io/name: {{ .Release.Name }}-idam-pr-delete
+        app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-del
     spec:
       volumes:
         - name: container-init
           configMap:
-            name: {{ .Release.Name }}-bin-delete
+            name: {{ template "hmcts.releaseName" . }}-bin-delete
             defaultMode: 0755
       containers:
-        - name: {{ .Release.Name }}-idam-pr-delete
+        - name: {{ template "hmcts.releaseName" . }}-del
           image: hmcts/curl
           volumeMounts:
             - name: container-init

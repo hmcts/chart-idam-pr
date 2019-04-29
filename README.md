@@ -44,7 +44,7 @@ dependencies:
       - idam-pr
 ```
 
-values.preview.yaml
+values.preview.template.yaml
 ```yaml
 tags:
   idam-pr: true
@@ -62,6 +62,44 @@ match the label your service appears with in IDAM Admin Console. If you are not 
 you can try and find your service in the list of services in IDAM AAT by going to: https://idam-api.aat.platform.hmcts.net/services. Look for the label value that matches your service, then use that as `idam-pr.service.name`. If still unsure, please contact IDAM team at #sidam-team.
 - idam-pr.service.redirect_uri: this is the application callback URL where IDAM will send back the authentication code. If you want to find out what redirect URIs are currently registered for your service in AAT, you can do it by going to https://idam-api.aat.platform.hmcts.net/agents/[service_oauth2_client_id] (you can find `service_oauth2_client_id` in the response of the get-services request above).
 - SERVICE_FQDN - is injected by Jenkins and values file templated before passing to Helm.
+
+## Multiple whitelisting URLs
+
+You must include the chart dependency per whitelist URL and use releaseNameOverride to avoid Kubernetes resource name clashes. An example is where the CCD chart uses two web ui components and both need whitelisting:
+
+requirements.yaml
+```yaml
+  - name: idam-pr
+    alias: case-mgmt-web-idam-pr
+    version: ~1.0.0
+    repository: '@hmcts'
+    tags:
+      - case-mgmt-web-idam-pr
+  - name: idam-pr
+    alias: admin-web-idam-pr
+    version: ~1.0.0
+    repository: '@hmcts'
+    tags:
+      - admin-web-idam-pr
+```
+
+values.preview.template.yaml
+```yaml
+tags:
+  case-mgmt-web-idam-pr: true
+  admin-web-idam-pr: true
+
+case-mgmt-web-idam-pr:
+  releaseNameOverride: ${SERVICE_NAME}-ccd-www-idam-pr
+  service:
+    name: CCD
+    redirect_uri: https://case-management-web-${SERVICE_FQDN}/oauth2redirect
+admin-web-idam-pr:
+  releaseNameOverride: ${SERVICE_NAME}-ccd-admin-idam-pr
+  service:
+    name: CCD Admin
+    redirect_uri: https://admin-web-${SERVICE_FQDN}/oauth2redirect
+```
 
 ## Default values.yaml
 

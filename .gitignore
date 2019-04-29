@@ -1,4 +1,5 @@
 *.tgz
+.DS_store
 
 ### IntelliJ IDEA ###
 .idea
