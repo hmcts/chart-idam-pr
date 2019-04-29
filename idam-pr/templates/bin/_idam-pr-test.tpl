@@ -13,7 +13,6 @@ curl -s -X POST {{ .Values.api.url }}/testing-support/accounts \
 echo "================================================================"
 echo "Testing each redirect_uri"
 echo "================================================================"
-
 {{ range $key, $value := .Values.redirect_uris }}
 for redirect_uri in {{ join " " $value }} 
 do
@@ -29,7 +28,6 @@ response=$(curl -s -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{
 httpCode=$(echo $response | grep -Eo 302)
 done
 {{ end }}
-
 echo "================================================================"
 echo "Deleting the test user"
 echo "================================================================"
