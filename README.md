@@ -65,40 +65,29 @@ you can try and find your service in the list of services in IDAM AAT by going t
 
 ## Multiple whitelisting URLs
 
-You must include the chart dependency per whitelist URL and use releaseNameOverride to avoid Kubernetes resource name clashes. An example is where the CCD chart uses two web ui components and both need whitelisting:
+You must use `releaseNameOverride` to avoid Kubernetes resource name clashes. An example is where the CCD chart uses two web ui components and both need whitelisting:
 
 requirements.yaml
 ```yaml
   - name: idam-pr
-    alias: case-mgmt-web-idam-pr
-    version: ~1.0.0
+    version: ~2.0.0
     repository: '@hmcts'
     tags:
-      - case-mgmt-web-idam-pr
-  - name: idam-pr
-    alias: admin-web-idam-pr
-    version: ~1.0.0
-    repository: '@hmcts'
-    tags:
-      - admin-web-idam-pr
+      - ccd-idam-pr
 ```
 
 values.preview.template.yaml
 ```yaml
 tags:
-  case-mgmt-web-idam-pr: true
-  admin-web-idam-pr: true
+  idam-pr: true
 
-case-mgmt-web-idam-pr:
-  releaseNameOverride: ${SERVICE_NAME}-ccd-www-idam-pr
-  service:
-    name: CCD
-    redirect_uri: https://case-management-web-${SERVICE_FQDN}/oauth2redirect
-admin-web-idam-pr:
-  releaseNameOverride: ${SERVICE_NAME}-ccd-admin-idam-pr
-  service:
-    name: CCD Admin
-    redirect_uri: https://admin-web-${SERVICE_FQDN}/oauth2redirect
+idam-pr:
+  releaseNameOverride: ${SERVICE_NAME}-ccd-idam-pr
+  redirect_uris:
+    CCD:
+    - https://case-management-web-${SERVICE_FQDN}/oauth2redirect
+    CCD Admin:
+    - https://admin-web-${SERVICE_FQDN}/oauth2redirect
 ```
 
 ## Default values.yaml
