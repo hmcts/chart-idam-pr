@@ -12,7 +12,7 @@ curl -X PATCH \
   -d '[ {
 	"operation": "remove",
 	"field": "redirect_uri",
-	"value": "${redirect_uri}"
+	"value": "'${redirect_uri}'"
 }
 ]'
 done
