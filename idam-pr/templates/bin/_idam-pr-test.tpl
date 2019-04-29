@@ -11,20 +11,23 @@ curl -s -X POST {{ .Values.api.url }}/testing-support/accounts \
   -d '{"email": "'$testUsername'", "forename": "James", "surname": "Bond", "password": "'$testPassword'", "roles": [{"code": "citizen"}]}'
 
 echo "================================================================"
-echo "Getting the csrf token"
+echo "Testing each redirect_uri"
 echo "================================================================"
-
-getLoginPage=$(curl -s -v -c cookies.txt -b cookies.txt '{{ .Values.web_public.url }}/login?redirect_uri={{ .Values.service.redirect_uri }}&client_id={{ .Values.service.name }}' 2<&1)
-
+{{ range $key, $value := .Values.redirect_uris }}
+for redirect_uri in {{ join " " $value }} 
+do
+echo "================================================================"
+echo "Getting the csrf token: {{ $key }} / ${redirect_uri}"
+echo "================================================================"
+getLoginPage=$(curl -s -v -c cookies.txt -b cookies.txt '{{ $.Values.web_public.url }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
 csrf=$(cat cookies.txt | grep -oE 'TOKEN.*' | grep -oE '[^TOKEN\t]+' | tr -d '[:space:]' 2<&1)
-
 echo "================================================================"
-echo "found token $csrf"
+echo "found token $csrf: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
-
-response=$(curl -s -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{ .Values.service.name }}&username=$testUsername&password=$testPassword&redirect_uri={{ .Values.service.redirect_uri }}&state=12345&selfRegistrationEnabled=true" '{{ .Values.web_public.url }}/login' 2<&1)
+response=$(curl -s -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{ $key }}&username=$testUsername&password=$testPassword&redirect_uri=${redirect_uri}&state=12345&selfRegistrationEnabled=true" '{{ $.Values.web_public.url }}/login' 2<&1)
 httpCode=$(echo $response | grep -Eo 302)
-
+done
+{{ end }}
 echo "================================================================"
 echo "Deleting the test user"
 echo "================================================================"

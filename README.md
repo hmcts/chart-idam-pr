@@ -44,7 +44,7 @@ dependencies:
       - idam-pr
 ```
 
-values.preview.yaml
+values.preview.template.yaml
 ```yaml
 tags:
   idam-pr: true
@@ -62,6 +62,33 @@ match the label your service appears with in IDAM Admin Console. If you are not 
 you can try and find your service in the list of services in IDAM AAT by going to: https://idam-api.aat.platform.hmcts.net/services. Look for the label value that matches your service, then use that as `idam-pr.service.name`. If still unsure, please contact IDAM team at #sidam-team.
 - idam-pr.service.redirect_uri: this is the application callback URL where IDAM will send back the authentication code. If you want to find out what redirect URIs are currently registered for your service in AAT, you can do it by going to https://idam-api.aat.platform.hmcts.net/agents/[service_oauth2_client_id] (you can find `service_oauth2_client_id` in the response of the get-services request above).
 - SERVICE_FQDN - is injected by Jenkins and values file templated before passing to Helm.
+
+## Multiple whitelisting URLs
+
+You must use `releaseNameOverride` to avoid Kubernetes resource name clashes. An example is where the CCD chart uses two web ui components and both need whitelisting:
+
+requirements.yaml
+```yaml
+  - name: idam-pr
+    version: ~2.0.0
+    repository: '@hmcts'
+    tags:
+      - ccd-idam-pr
+```
+
+values.preview.template.yaml
+```yaml
+tags:
+  idam-pr: true
+
+idam-pr:
+  releaseNameOverride: ${SERVICE_NAME}-ccd-idam-pr
+  redirect_uris:
+    CCD:
+    - https://case-management-web-${SERVICE_FQDN}/oauth2redirect
+    CCD Admin:
+    - https://admin-web-${SERVICE_FQDN}/oauth2redirect
+```
 
 ## Default values.yaml
 

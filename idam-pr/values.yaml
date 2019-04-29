@@ -4,9 +4,9 @@ api:
 web_public:
   url: https://idam-web-public.aat.platform.hmcts.net
 
-service:
-  name: test-public-service
-  redirect_uri: http://localhost/oauth2/receiver
+redirect_uris:
+  test-public-service:
+  - http://localhost/oauth2/receiver
 
 memoryRequests: "512Mi"
 cpuRequests: "25m"
