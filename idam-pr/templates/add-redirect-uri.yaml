@@ -33,6 +33,7 @@ spec:
           command: [ "/bin/sh" ]
           args:
             - /container.init/idam-pr-add
+            {{ toYaml .Values.redirect_uris | indent 12 }}
           resources:
             requests:
               memory: {{ .Values.memoryRequests }}

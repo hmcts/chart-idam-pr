@@ -6,7 +6,8 @@ web_public:
 
 service:
   name: test-public-service
-  redirect_uri: http://localhost/oauth2/receiver
+  redirect_uris:
+    - http://localhost/oauth2/receiver
 
 memoryRequests: "512Mi"
 cpuRequests: "25m"
