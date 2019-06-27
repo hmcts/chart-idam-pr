@@ -4,9 +4,11 @@ kind: ConfigMap
 metadata:
   name: {{ template "hmcts.releaseName" . }}-bin-delete
   labels:
-    system: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     type: configuration
-
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-bin-delete
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
 data:
   idam-pr-delete: |
 {{ include (print .Template.BasePath "/bin/_idam-pr-delete.tpl") . | indent 4 }}
