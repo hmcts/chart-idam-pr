@@ -5,7 +5,7 @@ metadata:
   name: {{ template "hmcts.releaseName" . }}-bin-test
   labels:
     type: configuration
-    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-add
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-bin-test
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
