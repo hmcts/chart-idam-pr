@@ -2,6 +2,11 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: {{ template "hmcts.releaseName" . }}-bin-test-service
+  labels:
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-bin-test-service
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
   annotations:
     "helm.sh/hook": test-success
     "helm.sh/hook-delete-policy": "hook-succeeded,hook-failed"
