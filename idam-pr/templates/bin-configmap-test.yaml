@@ -9,10 +9,6 @@ metadata:
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
-  annotations:
-    helm.sh/hook: post-install
-    helm.sh/hook-weight: "-5"
-    helm.sh/hook-delete-policy: "hook-succeeded,hook-failed"
 data:
   idam-pr-test: |
 {{ include (print .Template.BasePath "/bin/_idam-pr-test.tpl") . | indent 4 }}
