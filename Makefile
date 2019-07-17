@@ -4,12 +4,15 @@ RELEASE := chart-${CHART}-release
 NAMESPACE := chart-tests
 TEST := ${RELEASE}-test-service
 ACR := hmctssandbox
-AKS_RESOURCE_GROUP := cnp-aks-sandbox-rg
-AKS_CLUSTER := cnp-aks-sandbox-cluster
+ACR_SUBSCRIPTION := DCD-CNP-DEV
+HELM_REPO := hmcts
+AKS_RESOURCE_GROUP := cnp-aks-rg
+AKS_CLUSTER := cnp-aks-cluster
 
 setup:
+	az account set --subscription ${ACR_SUBSCRIPTION}
 	az configure --defaults acr=${ACR}
-	az acr helm repo add
+	az acr helm repo add --name ${HELM_REPO}
 	az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} --name ${AKS_CLUSTER} --overwrite-existing
 
 clean:
@@ -23,7 +26,7 @@ inspect:
 	helm inspect chart ${CHART}
 
 deploy:
-	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml  --wait
+	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml --wait --debug
 
 test:
 	helm test ${RELEASE}
