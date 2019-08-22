@@ -52,15 +52,15 @@ tags:
 # other services yaml
 
 idam-pr:
-  service:
-    name: Money Claims - Citizen
-    redirect_uri: https://${SERVICE_FQDN}/receiver
+  redirect_uris:
+    Money Claims - Citizen:
+      - https://${SERVICE_FQDN}/receiver
 ```
 *Notes*: 
-- idam-pr.service.name: name of the service as configured in IDAM. It is unique per service per environment and will 
+- idam-pr.redirect_uris.service: name of the service as configured in IDAM. It is unique per service per environment and will 
 match the label your service appears with in IDAM Admin Console. If you are not sure what it needs to be set to, 
 you can try and find your service in the list of services in IDAM AAT by going to: https://idam-api.aat.platform.hmcts.net/services. Look for the label value that matches your service, then use that as `idam-pr.service.name`. If still unsure, please contact IDAM team at #sidam-team.
-- idam-pr.service.redirect_uri: this is the application callback URL where IDAM will send back the authentication code. If you want to find out what redirect URIs are currently registered for your service in AAT, you can do it by going to https://idam-api.aat.platform.hmcts.net/agents/[service_oauth2_client_id] (you can find `service_oauth2_client_id` in the response of the get-services request above).
+- idam-pr.redirect_uris.name.{value}: this is the application callback URL where IDAM will send back the authentication code. If you want to find out what redirect URIs are currently registered for your service in AAT, you can do it by going to https://idam-api.aat.platform.hmcts.net/agents/[service_oauth2_client_id] (you can find `service_oauth2_client_id` in the response of the get-services request above).
 - SERVICE_FQDN - is injected by Jenkins and values file templated before passing to Helm.
 
 ## Multiple whitelisting URLs
