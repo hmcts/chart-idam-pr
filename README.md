@@ -38,8 +38,8 @@ requirements.yaml
 dependencies:
   # other deps
   - name: idam-pr
-    version: ~1.0.0
-    repository: '@hmcts'
+    version: ~2.1.3
+    repository: '@hmctspublic'
     tags:
       - idam-pr
 ```
@@ -70,8 +70,8 @@ You must use `releaseNameOverride` to avoid Kubernetes resource name clashes. An
 requirements.yaml
 ```yaml
   - name: idam-pr
-    version: ~2.0.0
-    repository: '@hmcts'
+    version: ~2.1.3
+    repository: '@hmctspublic'
     tags:
       - ccd-idam-pr
 ```
@@ -99,9 +99,9 @@ api:
 web_public:
   url: https://idam-web-public.aat.platform.hmcts.net
 
-service:
-  name: test-public-service
-  redirect_uri: http://localhost/oauth2/receiver
+redirect_uris:
+  test-public-service:
+  - http://localhost/oauth2/receiver
 
 memoryRequests: "512Mi"
 cpuRequests: "25m"
