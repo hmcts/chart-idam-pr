@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "hmcts.releaseName" . }}-bin-add
+  name: {{ template "hmcts.idamPr.releaseName" . }}-bin-add
   labels:
     type: configuration
-    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-bin-add
+    app.kubernetes.io/name: {{ template "hmcts.idamPr.releaseName" . }}-bin-add
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}

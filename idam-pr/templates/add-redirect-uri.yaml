@@ -2,9 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "hmcts.releaseName" . }}-add
+  name: {{ template "hmcts.idamPr.releaseName" . }}-add
   labels:
-    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-add
+    app.kubernetes.io/name: {{ template "hmcts.idamPr.releaseName" . }}-add
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -15,17 +15,17 @@ metadata:
 spec:
   template:
     metadata:
-      name: {{ template "hmcts.releaseName" . }}-add
+      name: {{ template "hmcts.idamPr.releaseName" . }}-add
       labels:
-        app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-add
+        app.kubernetes.io/name: {{ template "hmcts.idamPr.releaseName" . }}-add
     spec:
       volumes:
         - name: container-init
           configMap:
-            name: {{ template "hmcts.releaseName" . }}-bin-add
+            name: {{ template "hmcts.idamPr.releaseName" . }}-bin-add
             defaultMode: 0755
       containers:
-        - name: {{ template "hmcts.releaseName" . }}-add
+        - name: {{ template "hmcts.idamPr.releaseName" . }}-add
           image: hmcts/curl
           volumeMounts:
             - name: container-init

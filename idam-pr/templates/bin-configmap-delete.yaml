@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "hmcts.releaseName" . }}-bin-delete
+  name: {{ template "hmcts.idamPr.releaseName" . }}-bin-delete
   labels:
     type: configuration
-    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-bin-delete
+    app.kubernetes.io/name: {{ template "hmcts.idamPr.releaseName" . }}-bin-delete
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}

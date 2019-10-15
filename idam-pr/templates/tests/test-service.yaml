@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ template "hmcts.releaseName" . }}-bin-test-service
+  name: {{ template "hmcts.idamPr.releaseName" . }}-bin-test-service
   annotations:
     helm.sh/hook: test-success
 spec:
   volumes:
     - name: container-init
       configMap:
-        name: {{ template "hmcts.releaseName" . }}-bin-test
+        name: {{ template "hmcts.idamPr.releaseName" . }}-bin-test
         defaultMode: 0755
   containers:
-  - name: {{ template "hmcts.releaseName" . }}-bin-test
+  - name: {{ template "hmcts.idamPr.releaseName" . }}-bin-test
     image: hmcts/curl
     volumeMounts:
       - name: container-init
