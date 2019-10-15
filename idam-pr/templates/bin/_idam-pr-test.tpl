@@ -6,7 +6,7 @@ testPassword="Agent007"
 echo "================================================================"
 echo "Creating a new test user $testUsername"
 echo "================================================================"
-curl -s -X POST {{ .Values.api.url }}/testing-support/accounts \
+curl -s -X POST {{ tpl .Values.api.url $ }}/testing-support/accounts \
   -H 'Content-Type: application/json' \
   -d '{"email": "'$testUsername'", "forename": "James", "surname": "Bond", "password": "'$testPassword'", "roles": [{"code": "citizen"}]}'
 
@@ -14,24 +14,24 @@ echo "================================================================"
 echo "Testing each redirect_uri"
 echo "================================================================"
 {{ range $key, $value := .Values.redirect_uris }}
-for redirect_uri in {{ join " " $value }} 
+for redirect_uri in {{ tpl ( join " " $value ) $ }}
 do
 echo "================================================================"
 echo "Getting the csrf token: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
-getLoginPage=$(curl -s -v -c cookies.txt -b cookies.txt '{{ $.Values.web_public.url }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
+getLoginPage=$(curl -s -v -c cookies.txt -b cookies.txt '{{ tpl $.Values.web_public.url $ }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
 csrf=$(cat cookies.txt | grep -oE 'TOKEN.*' | grep -oE '[^TOKEN\t]+' | tr -d '[:space:]' 2<&1)
 echo "================================================================"
 echo "found token $csrf: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
-response=$(curl -s -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{ $key }}&username=$testUsername&password=$testPassword&redirect_uri=${redirect_uri}&state=12345&selfRegistrationEnabled=true" '{{ $.Values.web_public.url }}/login' 2<&1)
+response=$(curl -s -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{ $key }}&username=$testUsername&password=$testPassword&redirect_uri=${redirect_uri}&state=12345&selfRegistrationEnabled=true" '{{ tpl $.Values.web_public.url $ }}/login' 2<&1)
 httpCode=$(echo $response | grep -Eo 302)
 done
 {{ end }}
 echo "================================================================"
 echo "Deleting the test user"
 echo "================================================================"
-curl -s -X DELETE "{{ .Values.api.url }}/testing-support/accounts/$testUsername"
+curl -s -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
 
 if [ "$httpCode"  == "302" ]; then
   echo "================================================================"
