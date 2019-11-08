@@ -41,6 +41,10 @@ if [ "$httpCode"  == "302" ]; then
 else
   echo "================================================================"
   echo "Was incorrectly redirected to login page"
+  echo "HTTP response code was: $httpCode"
+  echo "HTTP response was:"
+  echo "================================================================"
+  echo "$response"
   echo "================================================================"
   echo "LOGIN FAILED WITH SUPPLIED DETAILS"
   exit 1
