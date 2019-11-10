@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
-testUsername="james.bond$(($(date +%s%N)/1000))@hmcts.net"
+testRandomUserId=$(LC_CTYPE=C tr -dc A-Za-z0-9 < /dev/urandom | fold -w ${1:-32} | head -n 1 | awk '{print substr($0,0,15)}')
+
+testUsername="james.bond${testRandomUserId}@hmcts.net"
 testPassword="Agent007"
 
 echo "================================================================"
