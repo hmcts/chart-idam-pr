@@ -23,7 +23,7 @@ jobs:
   - template: steps/charts/validate.yaml@cnp-library
     parameters:
       chartName: idam-pr
-      chartReleaseName: chart-idam-pr-ci-test
+      chartReleaseName: chart-idam-pr-ci-timj
       chartNamespace: chart-tests
       helmInstallTimeout: "300"
 
