@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -e
+set -ex
 {{ range $key, $value := .Values.redirect_uris }}
 for redirect_uri in {{ tpl ( join " " $value ) $ }}
 do

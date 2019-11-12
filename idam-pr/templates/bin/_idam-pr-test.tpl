@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -x
+
 testUsername="james.bond$(($(date +%s%N)/1000))@hmcts.net"
 testPassword="Agent007"
 

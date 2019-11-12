@@ -1,8 +1,12 @@
 api:
-  url: https://idam-api.aat.platform.hmcts.net
+  url: "{{ .Values.global.idamApiUrl }}"
 
 web_public:
-  url: https://idam-web-public.aat.platform.hmcts.net
+  url: "{{ .Values.global.idamWebUrl }}"
+
+global:
+  idamApiUrl: https://idam-api.aat.platform.hmcts.net
+  idamWebUrl: https://idam-web-public.aat.platform.hmcts.net
 
 memoryRequests: "128Mi"
 cpuRequests: "25m"
