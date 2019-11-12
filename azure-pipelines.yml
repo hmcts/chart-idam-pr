@@ -26,6 +26,7 @@ jobs:
       chartReleaseName: chart-idam-pr-ci-test
       chartNamespace: chart-tests
       helmInstallTimeout: "300"
+      helmVersion: "2.14.3"
 
 - job: Release
   # Make sure we have a tag to run this job
@@ -43,3 +44,4 @@ jobs:
       chartName: idam-pr
       chartReleaseName: chart-idam-pr
       chartNamespace: chart-tests
+      helmVersion: "2.14.3"
