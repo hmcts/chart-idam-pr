@@ -2,15 +2,19 @@
 
 set -x
 
-testUsername="james.bond$(($(date +%s%N)/1000))@hmcts.net"
+testUsername="$(mktemp -u 'james_bond.XXXXXX')$(date +%s)@hmcts.net"
 testPassword="Agent007"
 
 echo "================================================================"
 echo "Creating a new test user $testUsername"
 echo "================================================================"
-curl -s -X POST {{ tpl .Values.api.url $ }}/testing-support/accounts \
+userCreationResponse=$(curl -s -i -X POST {{ tpl .Values.api.url $ }}/testing-support/accounts \
   -H 'Content-Type: application/json' \
-  -d '{"email": "'$testUsername'", "forename": "James", "surname": "Bond", "password": "'$testPassword'", "roles": [{"code": "citizen"}]}'
+  -d '{"email": "'$testUsername'", "forename": "James", "surname": "Bond", "password": "'$testPassword'", "roles": [{"code": "citizen"}]}' 2<&1)
+echo "HTTP response was:"
+echo "================================================================"
+echo "$userCreationResponse"
+echo "================================================================"
 
 echo "================================================================"
 echo "Testing each redirect_uri"
@@ -28,12 +32,6 @@ echo "found token $csrf: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
 response=$(curl -s -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{ $key }}&username=$testUsername&password=$testPassword&redirect_uri=${redirect_uri}&state=12345&selfRegistrationEnabled=true" '{{ tpl $.Values.web_public.url $ }}/login' 2<&1)
 httpCode=$(echo $response | grep -Eo 302)
-done
-{{ end }}
-echo "================================================================"
-echo "Deleting the test user"
-echo "================================================================"
-curl -s -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
 
 if [ "$httpCode"  == "302" ]; then
   echo "================================================================"
@@ -49,5 +47,16 @@ else
   echo "$response"
   echo "================================================================"
   echo "LOGIN FAILED WITH SUPPLIED DETAILS"
+  echo "================================================================"
+  echo "Deleting the test user"
+  echo "================================================================"
+  curl -s -X DELETE "{{tpl $.Values.api.url $}}/testing-support/accounts/$testUsername"
   exit 1
 fi
+done
+{{ end }}
+echo "================================================================"
+echo "Deleting the test user"
+echo "================================================================"
+curl -s -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
+
