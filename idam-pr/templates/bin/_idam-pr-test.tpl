@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -x
+
 testUsername="$(mktemp -u 'james_bond.XXXXXX')$(date +%s)@hmcts.net"
 testPassword="Agent007"
 
