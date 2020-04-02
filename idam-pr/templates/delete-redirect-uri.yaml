@@ -13,6 +13,9 @@ metadata:
     helm.sh/hook-weight: "-5"
     helm.sh/hook-delete-policy: "before-hook-creation"
 spec:
+  {{- if .Values.ttlSecondsAfterFinished }}
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+  {{- end }}
   template:
     metadata:
       name: {{ template "hmcts.idamPr.releaseName" . }}-del
