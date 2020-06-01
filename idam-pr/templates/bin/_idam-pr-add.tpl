@@ -5,7 +5,7 @@ for redirect_uri in {{ tpl ( join " " $value ) $ }}
 do
 echo "Registering new redirect URI for service {{ $key }}: ${redirect_uri} using {{ tpl $.Values.api.url $ }}"
 
-curl -v -X PATCH \
+curl -v -k -X PATCH \
   {{ tpl $.Values.api.url $ }}/testing-support/services/{{  tpl ( $key | urlquery | replace "+" "%20") $ }} \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
