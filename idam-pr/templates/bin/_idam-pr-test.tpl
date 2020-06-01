@@ -8,7 +8,7 @@ testPassword="Agent007"
 echo "================================================================"
 echo "Creating a new test user $testUsername"
 echo "================================================================"
-userCreationResponse=$(curl -s -i -X POST {{ tpl .Values.api.url $ }}/testing-support/accounts \
+userCreationResponse=$(curl -s -k -i -X POST {{ tpl .Values.api.url $ }}/testing-support/accounts \
   -H 'Content-Type: application/json' \
   -d '{"email": "'$testUsername'", "forename": "James", "surname": "Bond", "password": "'$testPassword'", "roles": [{"code": "citizen"}]}' 2<&1)
 echo "HTTP response was:"
@@ -25,12 +25,12 @@ do
 echo "================================================================"
 echo "Getting the csrf token: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
-getLoginPage=$(curl -s -v -c cookies.txt -b cookies.txt '{{ tpl $.Values.web_public.url $ }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
+getLoginPage=$(curl -s -k -v -c cookies.txt -b cookies.txt '{{ tpl $.Values.web_public.url $ }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
 csrf=$(cat cookies.txt | grep -oE 'TOKEN.*' | grep -oE '[^TOKEN\t]+' | tr -d '[:space:]' 2<&1)
 echo "================================================================"
 echo "found token $csrf: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
-response=$(curl -s -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{ $key }}&username=$testUsername&password=$testPassword&redirect_uri=${redirect_uri}&state=12345&selfRegistrationEnabled=true" '{{ tpl $.Values.web_public.url $ }}/login' 2<&1)
+response=$(curl -s -k -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{ $key }}&username=$testUsername&password=$testPassword&redirect_uri=${redirect_uri}&state=12345&selfRegistrationEnabled=true" '{{ tpl $.Values.web_public.url $ }}/login' 2<&1)
 httpCode=$(echo $response | grep -Eo 302)
 
 if [ "$httpCode"  == "302" ]; then
@@ -50,7 +50,7 @@ else
   echo "================================================================"
   echo "Deleting the test user"
   echo "================================================================"
-  curl -s -X DELETE "{{tpl $.Values.api.url $}}/testing-support/accounts/$testUsername"
+  curl -s -k -X DELETE "{{tpl $.Values.api.url $}}/testing-support/accounts/$testUsername"
   exit 1
 fi
 done
@@ -58,5 +58,5 @@ done
 echo "================================================================"
 echo "Deleting the test user"
 echo "================================================================"
-curl -s -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
+curl -s -k -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
 
