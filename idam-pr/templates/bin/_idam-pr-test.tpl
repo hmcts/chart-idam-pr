@@ -53,7 +53,7 @@ else
   echo "================================================================"
   echo "Deleting the test user"
   echo "================================================================"
-  curl -s -k -X DELETE "{{tpl $.Values.api.url $}}/testing-support/accounts/$testUsername"
+  #curl -s -k -X DELETE "{{tpl $.Values.api.url $}}/testing-support/accounts/$testUsername"
   exit 1
 fi
 done
@@ -61,5 +61,5 @@ done
 echo "================================================================"
 echo "Deleting the test user"
 echo "================================================================"
-curl -s -k -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
+#curl -s -k -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
 
