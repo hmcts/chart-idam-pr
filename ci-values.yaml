@@ -2,3 +2,4 @@ redirect_uris:
   ccd_admin:
   - http://localhost/oauth2/receiver
 image: hmcts/curl
+debug: true
