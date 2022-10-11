@@ -1,5 +1,4 @@
 redirect_uris:
   test-public-service:
   - http://localhost/oauth2/receiver
-image: hmcts/curl
 debug: true
