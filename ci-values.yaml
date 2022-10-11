@@ -1,5 +1,5 @@
 redirect_uris:
-  CCD Admin:
+  test-public-service:
   - http://localhost/oauth2/receiver
 image: hmcts/curl
 debug: true
