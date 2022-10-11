@@ -25,6 +25,9 @@ do
 echo "================================================================"
 echo "Getting the csrf token: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
+touch cookies.txt
+ls
+pwd
 getLoginPage=$(curl -s -k -v -c cookies.txt -b cookies.txt '{{ tpl $.Values.web_public.url $ }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
 csrf=$(cat cookies.txt | grep -oE 'TOKEN.*' | grep -oE '[^TOKEN\t]+' | tr -d '[:space:]' 2<&1)
 echo "================================================================"
