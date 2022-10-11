@@ -25,12 +25,12 @@ do
 echo "================================================================"
 echo "Getting the csrf token: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
-getLoginPage=$(curl -s -k -v -c cookies.txt -b cookies.txt '{{ tpl $.Values.web_public.url $ }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
-csrf=$(cat cookies.txt | grep -oE 'TOKEN.*' | grep -oE '[^TOKEN\t]+' | tr -d '[:space:]' 2<&1)
+getLoginPage=$(curl -s -k -v -c /data/dir/cookies.txt -b /data/dir/cookies.txt '{{ tpl $.Values.web_public.url $ }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
+csrf=$(cat /data/dir/cookies.txt | grep -oE 'TOKEN.*' | grep -oE '[^TOKEN\t]+' | tr -d '[:space:]' 2<&1)
 echo "================================================================"
 echo "found token $csrf: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
-response=$(curl -s -k -i -c cookies.txt -b cookies.txt -d "_csrf=$csrf&client_id={{ $key }}&username=$testUsername&password=$testPassword&redirect_uri=${redirect_uri}&state=12345&selfRegistrationEnabled=true" '{{ tpl $.Values.web_public.url $ }}/login' 2<&1)
+response=$(curl -s -k -i -c /data/dir/cookies.txt -b /data/dir/cookies.txt -d "_csrf=$csrf&client_id={{ $key }}&username=$testUsername&password=$testPassword&redirect_uri=${redirect_uri}&state=12345&selfRegistrationEnabled=true" '{{ tpl $.Values.web_public.url $ }}/login' 2<&1)
 httpCode=$(echo $response | grep -Eo 302)
 
 if [ "$httpCode"  == "302" ]; then

@@ -10,12 +10,16 @@ spec:
       configMap:
         name: {{ template "hmcts.idamPr.releaseName" . }}-bin-test
         defaultMode: 0755
+    - name: data-dir
+      emptyDir: { }
   containers:
   - name: {{ template "hmcts.idamPr.releaseName" . }}-bin-test
-    image: hmcts/curl
+    image: {{ .Values.image }}
     volumeMounts:
       - name: container-init
         mountPath: /container.init
+      - name: data-dir
+        mountPath: /data/dir
     command: [ "/bin/sh" ]
     args:
       - /container.init/idam-pr-test

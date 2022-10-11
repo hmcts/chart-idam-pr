@@ -29,7 +29,7 @@ spec:
             defaultMode: 0755
       containers:
         - name: {{ template "hmcts.idamPr.releaseName" . }}-del
-          image: hmcts/curl
+          image: {{ .Values.image }}
           volumeMounts:
             - name: container-init
               mountPath: /container.init
