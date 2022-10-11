@@ -1,4 +1,4 @@
 redirect_uris:
-  CCD Admin:
+  ccd_admin:
   - http://localhost/oauth2/receiver
 image: hmcts/curl
