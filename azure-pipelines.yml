@@ -20,25 +20,9 @@ variables:
     value: ubuntu-latest
 
 jobs:
-- job: Validate
-  pool:
-    vmImage: ${{ variables.agentPool }}
-  steps:
-  - template: steps/charts/validate.yaml@cnp-library
-    parameters:
-      chartName: idam-pr
-      chartReleaseName: chart-idam-pr-ci-test
-      chartNamespace: chart-tests
-      helmInstallTimeout: "300"
 
 - job: Release
   # Make sure we have a tag to run this job
-  condition: >
-    and(
-        succeeded(),
-        startsWith(variables['Build.SourceBranch'], 'refs/tags/')
-      )
-  dependsOn: Validate
   pool:
     vmImage: ${{ variables.agentPool }}
   steps:
