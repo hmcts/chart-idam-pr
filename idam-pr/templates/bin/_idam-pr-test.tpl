@@ -25,9 +25,6 @@ do
 echo "================================================================"
 echo "Getting the csrf token: {{ $key }} / ${redirect_uri}"
 echo "================================================================"
-touch /data/dir/cookies.txt
-ls
-pwd
 getLoginPage=$(curl -s -k -v -c /data/dir/cookies.txt -b /data/dir/cookies.txt '{{ tpl $.Values.web_public.url $ }}/login?redirect_uri=${redirect_uri}&client_id={{ $key }}' 2<&1)
 csrf=$(cat /data/dir/cookies.txt | grep -oE 'TOKEN.*' | grep -oE '[^TOKEN\t]+' | tr -d '[:space:]' 2<&1)
 echo "================================================================"
@@ -53,7 +50,7 @@ else
   echo "================================================================"
   echo "Deleting the test user"
   echo "================================================================"
-  #curl -s -k -X DELETE "{{tpl $.Values.api.url $}}/testing-support/accounts/$testUsername"
+  curl -s -k -X DELETE "{{tpl $.Values.api.url $}}/testing-support/accounts/$testUsername"
   exit 1
 fi
 done
@@ -61,5 +58,5 @@ done
 echo "================================================================"
 echo "Deleting the test user"
 echo "================================================================"
-#curl -s -k -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
+curl -s -k -X DELETE "{{tpl .Values.api.url $}}/testing-support/accounts/$testUsername"
 
